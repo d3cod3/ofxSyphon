@@ -1,7 +1,7 @@
 /*
     SyphonNameboundClient.h
 	Syphon (Implementations)
-	
+
     Copyright 2010-2011 bangnoise (Tom Butterworth) & vade (Anton Marini).
     All rights reserved.
 
@@ -26,7 +26,7 @@
     (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
- 
+
 /*
 	SyphonNameboundClient
 
@@ -53,8 +53,8 @@
 	NSString *_name;
 	OSSpinLock _lock;
 	NSString *_appname;
-	SyphonOpenGLClient *_client;
-	SyphonOpenGLClient *_lockedClient;
+	SyphonClient *_client;
+	SyphonClient *_lockedClient;
 	BOOL _searchPending;
     CGLContextObj _context;
 }
@@ -68,5 +68,5 @@
 
 	Only use this property (and the client it returns) between lock/unlockClient calls.
  */
-@property (readonly) SyphonOpenGLClient *client;
+@property (readonly) SyphonClient *client;
 @end

@@ -29,7 +29,7 @@ ofxSyphonClient::~ofxSyphonClient()
 
 ofxSyphonClient::ofxSyphonClient(ofxSyphonClient const& s) :
 mClient([(SyphonNameboundClient*)s.mClient retain]),
-latestImage([(SyphonOpenGLImage*)s.latestImage retain]),
+latestImage([(SyphonImage*)s.latestImage retain]),
 mTex(s.mTex),
 width(s.width),
 height(s.height),
@@ -50,8 +50,8 @@ ofxSyphonClient & ofxSyphonClient::operator= (ofxSyphonClient const& s)
 
     [(SyphonNameboundClient*)mClient release];
     mClient = [(SyphonNameboundClient*)s.mClient retain];
-    [(SyphonOpenGLImage*)latestImage release];
-    latestImage = [(SyphonOpenGLImage*)s.latestImage retain];
+    [(SyphonImage*)latestImage release];
+    latestImage = [(SyphonImage*)s.latestImage retain];
     mTex = s.mTex;
     width = s.width;
     height = s.height;
@@ -150,13 +150,13 @@ void ofxSyphonClient::bind()
     if(bSetup)
     {
      	[(SyphonNameboundClient*)mClient lockClient];
-        SyphonOpenGLClient *client = [(SyphonNameboundClient*)mClient client];
+        SyphonClient *client = [(SyphonNameboundClient*)mClient client];
         
         latestImage = [client newFrameImage];
-		NSSize texSize = [(SyphonOpenGLImage*)latestImage textureSize];
+		NSSize texSize = [(SyphonImage*)latestImage textureSize];
         
-        // we now have to manually make our ofTexture's ofTextureData a proxy to our SyphonOpenGLImage
-        mTex.setUseExternalTextureID([(SyphonOpenGLImage*)latestImage textureName]);
+        // we now have to manually make our ofTexture's ofTextureData a proxy to our SyphonImage
+        mTex.setUseExternalTextureID([(SyphonImage*)latestImage textureName]);
         mTex.texData.textureTarget = GL_TEXTURE_RECTANGLE_ARB;  // Syphon always outputs rect textures.
         mTex.texData.width = texSize.width;
         mTex.texData.height = texSize.height;
@@ -189,7 +189,7 @@ void ofxSyphonClient::unbind()
         mTex.unbind();
 
         [(SyphonNameboundClient*)mClient unlockClient];
-        [(SyphonOpenGLImage*)latestImage release];
+        [(SyphonImage*)latestImage release];
         latestImage = nil;
     }
     else
